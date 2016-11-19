@@ -51,7 +51,7 @@ def make_app():
         (r"^/sensors$", SensorsHandler, dict(data=data)),
         (r"^/sensors/([a-zA-Z0-9]+)$", SensorDetailsHandler, dict(data=data)),
         (r"^/sensors/([a-zA-Z0-9]+)/event$", EventHandler, dict(data=data)),
-        (r"^/link/$", LinkHandler, dict(data=data)),
+        (r"^/link$", LinkHandler, dict(data=data)),
         (r"^/link/([0-9]+)$", LinkDetailsHandler, dict(data=data)),
     ], **settings)
 

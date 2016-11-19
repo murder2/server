@@ -35,18 +35,25 @@ class TestActor(unittest.TestCase):
     def __delete(self, path, **kwargs):
         return self.__request(requests.delete, path, **kwargs)
 
+    def __create_actor(self, actor = {
+            'capabilities': ['print', 'sound'],
+            'port': 1234,
+            }):
+        return json.loads(self.__post('actors', json=actor))['id']
+
     def test_can_register_actor(self):
         actor = {
             'capabilities': ['print', 'sound'],
             'port': 1234,
         }
-        self.__post('actors', json=actor)
+        new_id = self.__create_actor(actor)
+        actor['id'] = new_id
 
         received_actors = json.loads(self.__get('actors'))['actors']
         ret = {k: v
                 for a in received_actors
                 for k, v in a.items()
-                if k in actor.keys()}
+                if k in tuple(actor.keys()) + ('id',)}
 
         self.assertEqual(actor, ret)
 
@@ -60,6 +67,15 @@ class TestActor(unittest.TestCase):
             for k, v in s.items()
             if k == 'id'
         })
+
+    def test_can_link(self):
+        actor_id = self.__create_actor()
+
+        link = {
+            'event': {'major': 0, 'minor': 1},
+            'action': {'actor': '', 'id': actor_id},
+        }
+        self.__post('link', json=link)
 
 if __name__ == '__main__':
     unittest.main()

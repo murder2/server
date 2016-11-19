@@ -22,13 +22,13 @@ class ActorsHandler(BaseHandler):
     def post(self, *args, **kwargs):
         body = tornado.escape.json_decode(self.request.body)
 
-        self.data.addActor(
+        uid = self.data.addActor(
             ip=self.request.headers.get("X-Real-IP") or self.request.remote_ip,
             port=body["port"],
             capabilities=body["capabilities"]
         )
 
-        self.finish()
+        self.finish({'id': uid})
 
 
 class ActorDetailsHandler(BaseHandler):
