@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-import json
+import logging
 
 import tornado.escape
 import tornado.gen
 import tornado.httpclient
 import tornado.web
 
+from utils import BaseHandler
+
 
 __author__ = "Benjamin Schubert <ben.c.schubert@gmail.com>"
 
 
-class ActorsHandler(tornado.web.RequestHandler):
-    data = None
+logger = logging.getLogger("tornado.application")
 
-    def initialize(self, *args, **kwargs):
-        self.data = kwargs["data"]
 
+class ActorsHandler(BaseHandler):
     def get(self, *args, **kwargs):
         self.finish(dict(actors=list(self.data.actors.values())))
 
@@ -31,40 +31,19 @@ class ActorsHandler(tornado.web.RequestHandler):
         self.finish()
 
 
-class ActorDetailsHandler(tornado.web.RequestHandler):
-    data = None
-
-    def initialize(self, *args, **kwargs):
-        self.data = kwargs["data"]
-
+class ActorDetailsHandler(BaseHandler):
     def put(self, actor_id, *args, **kwargs):
-        actor = self.data.actors.get(actor_id)
-
-        if actor is None:
-            self.set_status(404)
-            self.finish()
-            return
+        actor = self.getOr404(self.data.actors, actor_id)
 
         # FIXME handle renaming
-        print("Put on ActorDetailsHandler not yet handled")
+        logger.warn("Put on ActorDetailsHandler not yet handled")
         self.finish()
 
 
-class ActorActionsHandler(tornado.web.RequestHandler):
-    data = None
-
-    def initialize(self, *args, **kwargs):
-        self.data = kwargs["data"]
-
+class ActorActionsHandler(BaseHandler):
     @tornado.gen.coroutine
     def put(self, actor_id, *args, **kwargs):
-        actor = self.data.actors.get(actor_id)
-
-        if actor is None:
-            self.set_status(404)
-            self.finish()
-            return
-
+        actor = self.getOr404(self.data.actors, actor_id)
         actor["actions"].append(tornado.escape.json_decode(self.request.body))
 
         http = tornado.httpclient.AsyncHTTPClient()
