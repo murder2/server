@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+import json
+import requests
+import subprocess
+import sys
+import time
+import unittest
+
+class TestActor(unittest.TestCase):
+
+    def setUp(self):
+        self.p = subprocess.Popen(['python3', 'runserver.py'])
+        time.sleep(2)
+
+    def tearDown(self):
+        self.p.terminate()
+
+    def __request(self, meth, path, **kwargs):
+        url = 'http://localhost:8000/' + path
+        print('>>', url)
+        r = meth(url, **kwargs)
+        self.assertIn(r.status_code, (200, 201), r.text)
+        return r.text
+
+    def __put(self, path, **kwargs):
+        return self.__request(requests.put, path, **kwargs)
+
+    def __get(self, path, **kwargs):
+        return self.__request(requests.get, path, **kwargs)
+
+    def __post(self, path, **kwargs):
+        return self.__request(requests.post, path, **kwargs)
+
+    def __delete(self, path, **kwargs):
+        return self.__request(requests.delete, path, **kwargs)
+
+    def test_can_register_actor(self):
+        actor = {
+            'capabilities': ['print', 'sound'],
+            'port': 1234,
+        }
+        self.__post('actors', json=actor)
+
+        received_actors = json.loads(self.__get('actors'))['actors']
+        ret = {k: v
+                for a in received_actors
+                for k, v in a.items()
+                if k in actor.keys()}
+
+        self.assertEqual(actor, ret)
+
+    def test_can_register_sensor(self):
+        sensor = {'name': 'test'}
+        self.__post('sensors', json=sensor)
+
+        received_sensors = json.loads(self.__get('sensors'))['sensors']
+        self.assertIn('test', {
+            v for s in received_sensors
+            for k, v in s.items()
+            if k == 'id'
+        })
+
+if __name__ == '__main__':
+    unittest.main()

@@ -18,7 +18,7 @@ logger = logging.getLogger("tornado.application")
 
 class SensorsHandler(BaseHandler):
     def get(self, *args, **kwargs):
-        self.finish(dict(actors=list(self.data.sensors.values())))
+        self.finish(dict(sensors=list(self.data.sensors.values())))
 
     def post(self, *args, **kwargs):
         body = tornado.escape.json_decode(self.request.body)
