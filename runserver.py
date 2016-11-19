@@ -17,6 +17,7 @@ __author__ = "Benjamin Schubert <ben.c.schubert@gmail.com>"
 
 
 tornado.options.define("port", default=8000, type=int)
+tornado.options.define("debug", default=False, type=bool)
 
 logger = logging.getLogger("tornado.application")
 
@@ -25,19 +26,25 @@ data = Data()
 
 
 class MainHandler(tornado.web.RequestHandler):
+    debug = None
+
+    def initialize(self, debug):
+        self.debug = debug
+
     def get(self):
-        self.render("index.html")
+        self.render("index.html", debug=self.debug)
 
 
 def make_app():
-    settings = {
-        "static_path": os.path.join(os.path.dirname(__file__), "static"),
-        "template_path": os.path.join(os.path.dirname(__file__), "templates"),
-        "autoreload": True,
-    }
+    settings = dict(
+        static_path=os.path.join(os.path.dirname(__file__), "static"),
+        template_path=os.path.join(os.path.dirname(__file__), "templates"),
+        autoreload=True,
+        debug=tornado.options.options.debug
+    )
 
     return tornado.web.Application([
-        (r"^/$", MainHandler),
+        (r"^/$", MainHandler, dict(debug=settings["debug"])),
         (r"^/actors$", ActorsHandler, dict(data=data)),
         (r"^/actors/([0-9]+)$", ActorDetailsHandler, dict(data=data)),
         (r"^/actors/([0-9]+)/actions$", ActorActionsHandler, dict(data=data)),
