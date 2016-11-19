@@ -55,12 +55,21 @@ class EventHandler(BaseHandler):
 
         body = tornado.escape.json_decode(self.request.body)
 
-        # FIXME : handle sending event
-        logger.debug("Sending event from {major}/{minor}".format(major=body["major"], minor=body["minor"]))
+        major = body["major"]
+        minor = body["minor"]
 
-        #http = tornado.httpclient.AsyncHTTPClient()
-        #yield http.fetch("http://{ip}:{port}/actions/{id}".format(
-        #    ip=actor["ip"], port=actor["port"], id=len(actor["actions"])
-        #), body=self.request.body, method="PUT")
+        # FIXME : handle sending event
+        logger.debug("Sending event from {major}/{minor}".format(major=major, minor=minor))
+
+        http = tornado.httpclient.AsyncHTTPClient()
+
+        yield [
+            http.fetch("http://{ip}:{port}/actions/{id}".format(
+                id=event["id"],
+                ip=self.data.actors.get(event["actor"]["ip"]),
+                port=self.data.actors.get(event["actor"]["port"])
+            ))
+            for event in self.data.links[major][minor]
+        ]
 
         self.finish()

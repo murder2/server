@@ -37,7 +37,7 @@ class LinkHandler(BaseHandler):
         if action_id is None:
             raise HTTPError(400, response=dict(error="Missing id on field action"))
 
-        self.data.links[event_major][event_minor] = dict(actor=action_actor, id=action_id)
+        self.data.links[event_major][event_minor] = dict(actor=action_actor, action=action_id)
 
         self.finish()
 
