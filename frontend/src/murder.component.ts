@@ -22,8 +22,8 @@ export class MurderComponent {
 
     public event: Sensor = null;
     public event_uid: string = null;
-    public event_major: string = null;
-    public event_minor: string = null;
+    public event_major: number = null;
+    public event_minor: number = null;
 
     constructor(public service: MurderService) {}
 

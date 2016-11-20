@@ -1,6 +1,6 @@
 export class Beacon {
-	
-    constructor(public major: number, public minor: number, public UID: string, public friendlyName: string = null) {}
+
+    constructor(public major: number, public minor: number, public uid: string, public friendlyName: string = null) {}
 
 }
 

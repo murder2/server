@@ -14,7 +14,7 @@
         <div class="row" *ngFor="let o of service.events$ | async">
             <div class="col-xs-12">
                 <button class="btn btn-primary btn-lg" (click)="setEvent(o)">
-                    {{ o.title }}
+                    {{ o.friendlyName || o.uid }}
                 </button>
             </div>
         </div>
@@ -50,7 +50,7 @@
         <div class="row" *ngFor="let o of service.actions$ | async">
             <div class="col-xs-12">
                 <button class="btn btn-danger btn-lg float-xs-right" (click)="setAction(o)">
-                    {{ o.title }}
+                    {{ o.friendlyName || o.uid }}
                 </button>
             </div>
         </div>
@@ -63,17 +63,17 @@
     <form body class="row form-group" (ngSubmit)="submitEvent()">
         <div class="col-xs-12">
             <select class="form-control" [(ngModel)]="event" name="event">
-                <option *ngFor="let sensor of service.sensors$ | async" [value]="sensor">{{ sensor.friendlyName || sensor.id }}</option>
+                <option *ngFor="let sensor of service.sensors$ | async" [ngValue]="sensor">{{ sensor.friendlyName || sensor.id }}</option>
             </select>
         </div>
         <div class="col-xs-12">
             <input class="form-control" type="text" [(ngModel)]="event_uid" placeholder="UID" name="event_uid">
         </div>
         <div class="col-xs-12">
-            <input class="form-control" type="text" [(ngModel)]="event_major" placeholder="Major" name="event_major">
+            <input class="form-control" type="number" [(ngModel)]="event_major" placeholder="Major" name="event_major">
         </div>
         <div class="col-xs-12">
-            <input class="form-control" type="text" [(ngModel)]="event_minor" placeholder="Minor" name="event_minor">
+            <input class="form-control" type="number" [(ngModel)]="event_minor" placeholder="Minor" name="event_minor">
         </div>
 
         <div class="col-xs-12">

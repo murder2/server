@@ -10,7 +10,7 @@ import tornado.web
 from actor import ActorsHandler, ActorDetailsHandler, ActorActionsHandler
 from link import LinkHandler, LinkDetailsHandler
 from models import Data
-from sensors import SensorDetailsHandler, SensorsHandler, EventHandler
+from sensors import SensorDetailsHandler, SensorsHandler, EventHandler, BeaconHandler
 
 
 __author__ = "Benjamin Schubert <ben.c.schubert@gmail.com>"
@@ -51,6 +51,7 @@ def make_app():
         (r"^/sensors$", SensorsHandler, dict(data=data)),
         (r"^/sensors/([a-zA-Z0-9]+)$", SensorDetailsHandler, dict(data=data)),
         (r"^/sensors/([a-zA-Z0-9]+)/event$", EventHandler, dict(data=data)),
+        (r"^/beacons$", BeaconHandler, dict(data=data)),
         (r"^/link$", LinkHandler, dict(data=data)),
         (r"^/link/([0-9]+)$", LinkDetailsHandler, dict(data=data)),
     ], **settings)

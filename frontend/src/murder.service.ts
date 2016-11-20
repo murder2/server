@@ -1,7 +1,7 @@
 import { ReplaySubject } from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
-import {Action, Actor, Sensor} from "./stub";
+import {Action, Actor, Sensor, Beacon} from "./stub";
 
 
 @Injectable()
@@ -14,7 +14,22 @@ export class MurderService {
 
     constructor(public http: Http) {
         this.fetchActions();
+        this.fetchSensors();
+        this.fetchEvents();
     }
+
+    public fetchSensors() {
+        this.http.get("/sensors").subscribe((res: Response) => {
+            this.sensors$.next(res.json().sensors);
+        })
+    }
+
+    public fetchEvents() {{
+        this.http.get("/beacons").subscribe((res: Response) => {
+            console.log(res.json());
+            this.events$.next(res.json().beacons);
+        })
+    }}
 
     public fetchActions() {
         this.http.get("/actors").subscribe((res: Response) => {
@@ -23,7 +38,11 @@ export class MurderService {
     }
 
 
-    public addEvent(sensor: Sensor, beacon_uid: string, beacon_minor: string, beacon_major: string) {
-        return this.http.put(`/sensors/${sensor.id}`, {uid: beacon_uid, minor: beacon_minor, major: beacon_major})
+    public addEvent(sensor: Sensor, beacon_uid: string, beacon_major: number, beacon_minor: number) {
+        sensor.beacons.push(new Beacon(beacon_major, beacon_minor, beacon_uid));
+        return this.http.put(`/sensors/${sensor.id}`, sensor).map((e: Response) => {
+            this.fetchEvents();
+            return e;
+        });
     }
 }

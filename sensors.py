@@ -73,3 +73,11 @@ class EventHandler(BaseHandler):
         ]
 
         self.finish()
+
+
+class BeaconHandler(BaseHandler):
+    def get(self, *args, **kwargs):
+        data = []
+        for sensor in self.data.sensors.values():
+            data.extend(sensor["beacons"])
+        self.finish({"beacons": data})
