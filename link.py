@@ -28,8 +28,12 @@ class LinkHandler(BaseHandler):
         if action is None:
             raise HTTPError(400, response=dict(error="Missing action field"))
 
-        action_actor = action.get("actor")
         action_id = action.get("id")
+
+        for a in self.data.actors.values():
+            for i in a["actions"]:
+                if i["id"] == action_id:
+                    action_actor = a
 
         if action_actor is None:
             raise HTTPError(400, response=dict(error="Missing actor field on action"))

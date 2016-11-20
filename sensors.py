@@ -63,13 +63,16 @@ class EventHandler(BaseHandler):
 
         http = tornado.httpclient.AsyncHTTPClient()
 
+        event = self.data.links[major][minor]
+
+        print(event["actor"]["ip"], event["actor"]["port"])
         yield [
             http.fetch("http://{ip}:{port}/actions/{id}".format(
-                id=event["id"],
-                ip=self.data.actors.get(event["actor"]["ip"]),
-                port=self.data.actors.get(event["actor"]["port"])
+                id=action["id"],
+                ip=event["actor"]["ip"],
+                port=event["actor"]["port"]
             ))
-            for event in self.data.links[major][minor]
+            for action in self.data.links[major][minor]["actor"]["actions"]
         ]
 
         self.finish()

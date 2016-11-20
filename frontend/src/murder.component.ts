@@ -67,6 +67,9 @@ export class MurderComponent {
     }
 
     saveLink() {
-        this.service.addLink(this.newAction, this.newEvent);
+        this.service.addLink(this.newAction, this.newEvent).subscribe(() => {
+            this.newEvent = null;
+            this.newAction = null;
+        });
     }
 }

@@ -44,11 +44,15 @@ class ActorActionsHandler(BaseHandler):
     @tornado.gen.coroutine
     def put(self, actor_id, *args, **kwargs):
         actor = self.getOr404(self.data.actors, actor_id)
-        actor["actions"].append(tornado.escape.json_decode(self.request.body))
+
+        body = tornado.escape.json_decode(self.request.body)
+        body["id"] = len(actor["actions"])
+        actor["actions"].append(body)
+
 
         http = tornado.httpclient.AsyncHTTPClient()
         yield http.fetch("http://{ip}:{port}/actions/{id}".format(
-            ip=actor["ip"], port=actor["port"], id=len(actor["actions"])
+            ip=actor["ip"], port=actor["port"], id=body["id"]
         ), body=self.request.body, method="PUT")
 
         self.finish()

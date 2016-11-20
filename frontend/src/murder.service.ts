@@ -60,6 +60,6 @@ export class MurderService {
     }
 
     public addLink(a: Action, e: Beacon) {
-        console.log(a, e);
+        return this.http.post(`/link`, {event: e, action: a});
     }
 }
