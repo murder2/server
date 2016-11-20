@@ -13,7 +13,7 @@ export class MurderService {
     public links$ = new ReplaySubject<any[]>(1);
 
     constructor(public http: Http) {
-        this.fetchActions();
+        this.fetchActors();
         this.fetchSensors();
         this.fetchEvents();
     }
@@ -26,15 +26,18 @@ export class MurderService {
 
     public fetchEvents() {{
         this.http.get("/beacons").subscribe((res: Response) => {
-            console.log(res.json());
             this.events$.next(res.json().beacons);
         })
     }}
 
-    public fetchActions() {
+    public fetchActors() {
         this.http.get("/actors").subscribe((res: Response) => {
-            console.log(res);
+            this.actors$.next(res.json().actors);
         })
+    }
+
+    public fetchActions() {
+
     }
 
 
@@ -44,5 +47,12 @@ export class MurderService {
             this.fetchEvents();
             return e;
         });
+    }
+
+    public addAction(actor: Actor, action_type: string, sound_file: string) {
+        return this.http.put(`/actors/${actor.id}/actions`, { action_type: action_type, sound_file: sound_file}).map((e: Response) => {
+            this.fetchActions();
+            return e;
+        })
     }
 }

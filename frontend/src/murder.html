@@ -29,10 +29,10 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <button class="btn btn-primary btn-lg" [disabled]="newEvent == null">
-                    {{ newEvent?.title || "Choose Event" }}
+                <button class="btn btn-primary btn-lg" [disabled]="newEvent == null" (click)="newEvent = null">
+                    {{ newEvent?.friendlyName || newEvent?.uid || "Choose Event" }}
                 </button>
-                <button class="btn btn-danger btn-lg float-xs-right" [disabled]="newAction == null">
+                <button class="btn btn-danger btn-lg float-xs-right" [disabled]="newAction == null" (click)="newAction = null">
                     {{ newAction?.title || "Choose Action" }}
                 </button>
             </div>
@@ -74,6 +74,30 @@
         </div>
         <div class="col-xs-12">
             <input class="form-control" type="number" [(ngModel)]="event_minor" placeholder="Minor" name="event_minor">
+        </div>
+
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary float-xs-right">Save</button>
+        </div>
+    </form>
+</modal>
+
+
+<modal *ngIf="actionModal" (onClose)="handleActionClose()" (click)="actionModal = false">
+    <div header>Add new Action</div>
+    <form body class="row form-group" (ngSubmit)="submitAction()">
+        <div class="col-xs-12">
+            <select class="form-control" [(ngModel)]="actor" name="actor">
+                <option *ngFor="let sensor of service.actors$ | async" [ngValue]="sensor">{{ sensor.friendlyName || sensor.id }}</option>
+            </select>
+        </div>
+        <div class="col-xs-12">
+            <select class="form-control" [(ngModel)]="action_type" name="action_type">
+                <option *ngFor="let type of ['print', 'sound']" [ngValue]="type">{{ type }}</option>
+            </select>
+        </div>
+        <div class="col-xs-12" *ngIf="action_type == 'sound'">
+            <input class="form-control" type="text" [(ngModel)]="sound_file" placeholder="Sound" name="sound_file">
         </div>
 
         <div class="col-xs-12">

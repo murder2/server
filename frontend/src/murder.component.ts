@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from "@angular/core";
 import {MurderService} from "./murder.service";
-import {Sensor} from "./stub";
+import {Sensor, Actor} from "./stub";
 import {Response} from "@angular/http";
 
 
@@ -24,6 +24,10 @@ export class MurderComponent {
     public event_uid: string = null;
     public event_major: number = null;
     public event_minor: number = null;
+
+    public actor: Actor = null;
+    public action_type: string = null;
+    public sound_file: string = null;
 
     constructor(public service: MurderService) {}
 
@@ -49,7 +53,14 @@ export class MurderComponent {
             this.event_major = null;
             this.event_minor = null;
             this.eventModal = false;
-            console.log(e);
         });
+    }
+
+    submitAction() {
+        this.service.addAction(this.actor, this.action_type, this.sound_file).subscribe(() => {
+            this.actor = null;
+            this.action_type = null;
+            this.sound_file = null;
+        })
     }
 }
