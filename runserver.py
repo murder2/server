@@ -7,7 +7,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
-from actor import ActorsHandler, ActorDetailsHandler, ActorActionsHandler
+from actor import ActorsHandler, ActorDetailsHandler, ActorActionsHandler, ActionsHandler
 from link import LinkHandler, LinkDetailsHandler
 from models import Data
 from sensors import SensorDetailsHandler, SensorsHandler, EventHandler, BeaconHandler
@@ -52,6 +52,7 @@ def make_app():
         (r"^/sensors/([a-zA-Z0-9]+)$", SensorDetailsHandler, dict(data=data)),
         (r"^/sensors/([a-zA-Z0-9]+)/event$", EventHandler, dict(data=data)),
         (r"^/beacons$", BeaconHandler, dict(data=data)),
+        (r"^/actions$", ActionsHandler, dict(data=data)),
         (r"^/link$", LinkHandler, dict(data=data)),
         (r"^/link/([0-9]+)$", LinkDetailsHandler, dict(data=data)),
     ], **settings)

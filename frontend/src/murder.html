@@ -33,7 +33,7 @@
                     {{ newEvent?.friendlyName || newEvent?.uid || "Choose Event" }}
                 </button>
                 <button class="btn btn-danger btn-lg float-xs-right" [disabled]="newAction == null" (click)="newAction = null">
-                    {{ newAction?.title || "Choose Action" }}
+                    {{ newAction?.name || newAction?.type || "Choose Action" }}
                 </button>
             </div>
         </div>
@@ -50,7 +50,7 @@
         <div class="row" *ngFor="let o of service.actions$ | async">
             <div class="col-xs-12">
                 <button class="btn btn-danger btn-lg float-xs-right" (click)="setAction(o)">
-                    {{ o.friendlyName || o.uid }}
+                    {{ o.name || o.type }}
                 </button>
             </div>
         </div>
@@ -86,6 +86,9 @@
 <modal *ngIf="actionModal" (onClose)="handleActionClose()" (click)="actionModal = false">
     <div header>Add new Action</div>
     <form body class="row form-group" (ngSubmit)="submitAction()">
+        <div class="col-xs-12">
+            <input class="form-control" type="text" [(ngModel)]="action_name" name="action_name" placeholder="Name">
+        </div>
         <div class="col-xs-12">
             <select class="form-control" [(ngModel)]="actor" name="actor">
                 <option *ngFor="let sensor of service.actors$ | async" [ngValue]="sensor">{{ sensor.friendlyName || sensor.id }}</option>

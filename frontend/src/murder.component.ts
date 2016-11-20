@@ -28,6 +28,7 @@ export class MurderComponent {
     public actor: Actor = null;
     public action_type: string = null;
     public sound_file: string = null;
+    public action_name: string = null;
 
     constructor(public service: MurderService) {}
 
@@ -57,10 +58,11 @@ export class MurderComponent {
     }
 
     submitAction() {
-        this.service.addAction(this.actor, this.action_type, this.sound_file).subscribe(() => {
+        this.service.addAction(this.actor, this.action_name, this.action_type, this.sound_file).subscribe(() => {
             this.actor = null;
             this.action_type = null;
             this.sound_file = null;
+            this.actionModal = false;
         })
     }
 }

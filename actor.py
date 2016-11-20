@@ -52,3 +52,12 @@ class ActorActionsHandler(BaseHandler):
         ), body=self.request.body, method="PUT")
 
         self.finish()
+
+
+class ActionsHandler(BaseHandler):
+    def get(self, *args, **kwargs):
+        actions = []
+
+        for actor in self.data.actors.values():
+            actions.extend(actor["actions"])
+        self.finish(dict(actions=actions))

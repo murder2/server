@@ -16,6 +16,7 @@ export class MurderService {
         this.fetchActors();
         this.fetchSensors();
         this.fetchEvents();
+        this.fetchActions();
     }
 
     public fetchSensors() {
@@ -37,9 +38,11 @@ export class MurderService {
     }
 
     public fetchActions() {
+        this.http.get("/actions").subscribe((res: Response) => {
+            this.actions$.next(res.json().actions);
+        })
 
     }
-
 
     public addEvent(sensor: Sensor, beacon_uid: string, beacon_major: number, beacon_minor: number) {
         sensor.beacons.push(new Beacon(beacon_major, beacon_minor, beacon_uid));
@@ -49,8 +52,8 @@ export class MurderService {
         });
     }
 
-    public addAction(actor: Actor, action_type: string, sound_file: string) {
-        return this.http.put(`/actors/${actor.id}/actions`, { action_type: action_type, sound_file: sound_file}).map((e: Response) => {
+    public addAction(actor: Actor, action_name, action_type: string, sound_file: string) {
+        return this.http.put(`/actors/${actor.id}/actions`, { name: action_name, type: action_type, sound_file: sound_file}).map((e: Response) => {
             this.fetchActions();
             return e;
         })

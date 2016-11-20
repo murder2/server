@@ -12,7 +12,7 @@ export class Sensor {
 
 export class Action {
 
-    constructor(public type: string, public extras: string) {}
+    constructor(public type: string, public name: string, public extras: string) {}
 
 }
 
