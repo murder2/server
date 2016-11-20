@@ -1,0 +1,75 @@
+{
+  "name": "Murder2.0",
+  "version": "1.0.0",
+  "license": "None",
+  "private": true,
+
+  "dependencies": {
+    "reflect-metadata": "0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "0.6.26",
+
+    "@angular/common": "2.1.2",
+    "@angular/compiler": "2.1.2",
+    "@angular/compiler-cli": "2.1.2",
+    "@angular/core": "2.1.2",
+    "@angular/forms": "2.1.2",
+    "@angular/http": "2.1.2",
+    "@angular/platform-browser": "2.1.2",
+    "@angular/router": "3.1.2",
+
+    "bootstrap": "4.0.0-alpha.5"
+  },
+
+  "devDependencies": {
+    "@types/core-js": "0.9.34",
+    "@types/node": "6.0.46",
+    "webpack": "2.1.0-beta.25",
+    "npm-watch": "0.1.6",
+
+    "html-webpack-plugin": "2.24.1",
+    "webpack-merge": "0.15.0",
+    "extract-text-webpack-plugin": "^2.0.0-beta",
+    "imports-loader": "0.6.5",
+    "exports-loader": "0.6.3",
+    "copy-webpack-plugin": "4.0.0",
+
+    "node-sass": "3.11.2",
+
+    "to-string-loader": "1.1.5",
+    "ts-loader": "1.2.0",
+    "raw-loader": "0.5.1",
+    "source-map-loader": "0.1.5",
+    "angular2-template-loader": "0.6.0",
+    "bootstrap-loader": "2.0.0-beta.12",
+    "css-loader": "0.25.0",
+    "resolve-url-loader": "1.6.0",
+    "sass-loader": "4.0.2",
+    "url-loader": "0.5.7",
+    "file-loader": "0.9.0",
+    "style-loader": "0.13.1",
+
+    "rimraf": "2.5.4",
+    "typescript": "2.0.9"
+  },
+
+  "scripts": {
+    "clean": "npm cache clean && npm run clean:build && rimraf -- node_modules",
+      "clean:build": "npm run clean:dist && npm run clean:compiled",
+      "clean:dist": "rimraf -- dist",
+      "clean:compiled": "rimraf -- compiled output",
+      "preclean:install": "npm run clean",
+
+    "ngc": "ngc",
+    "watch": "webpack --progress --colors --watch --config ./webpack.config.js",
+    "prebuild:watch": "npm run clean:dist"
+  },
+
+  "watch": {
+    "ngc": {
+      "patterns": ["src"],
+      "extensions": "html,css",
+      "quiet": true
+    }
+  }
+}

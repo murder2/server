@@ -23,6 +23,7 @@ logger = logging.getLogger("tornado.application")
 
 
 data = Data()
+static = os.path.join(os.path.dirname(__file__), "static")
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -37,14 +38,13 @@ class MainHandler(tornado.web.RequestHandler):
 
 def make_app():
     settings = dict(
-        static_path=os.path.join(os.path.dirname(__file__), "static"),
-        template_path=os.path.join(os.path.dirname(__file__), "templates"),
+        static_path=static,
         autoreload=True,
         debug=tornado.options.options.debug
     )
 
     return tornado.web.Application([
-        (r"^/$", MainHandler, dict(debug=settings["debug"])),
+        (r"^()/$", tornado.web.StaticFileHandler, dict(default_filename="index.html", path=static)),
         (r"^/actors$", ActorsHandler, dict(data=data)),
         (r"^/actors/([0-9]+)$", ActorDetailsHandler, dict(data=data)),
         (r"^/actors/([0-9]+)/actions$", ActorActionsHandler, dict(data=data)),

@@ -16,7 +16,7 @@ class Data:
 
     actors = dict()  # containing capabilities, ip, port, id, actions
     sensors = dict()
-    links = defaultdict(dict)
+    links = defaultdict(lambda: defaultdict(dict))
 
     def addActor(self, ip, port, capabilities):
         self.actors[str(self.actor_id)] = dict(capabilities=capabilities, ip=str(ip), port=port, id=self.actor_id, actions=[])

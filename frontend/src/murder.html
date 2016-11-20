@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-xs-3">
+        <div class="row" *ngFor="let o of service.actions$ | async">
+            <div class="col-xs-12">
+                <button class="btn btn-info">
+                    {{ o.title }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
