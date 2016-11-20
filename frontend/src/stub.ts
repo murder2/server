@@ -18,7 +18,7 @@ export class Action {
 
 export class Actor {
 
-    constructor(public id: string, public ip: string, public port: number, public capabilities: string[], public actions: Action[],  public friendlyName: string = null) {}
+    constructor(public id: string, public ip: string, public port: number, public capabilities: string[], public actions: Action[]) {}
 
 }
 

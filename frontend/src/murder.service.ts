@@ -8,7 +8,7 @@ import {Action, Actor, Sensor, Beacon} from "./stub";
 export class MurderService {
     public actions$ = new ReplaySubject<Action[]>(1);
     public actors$ = new ReplaySubject<Actor[]>(1);
-    public events$ = new ReplaySubject<Event[]>(1);
+    public events$ = new ReplaySubject<Beacon[]>(1);
     public sensors$ = new ReplaySubject<Sensor[]>(1);
     public links$ = new ReplaySubject<any[]>(1);
 
@@ -59,7 +59,7 @@ export class MurderService {
         })
     }
 
-    public addLink(a: Action, e: Event) {
-        
+    public addLink(a: Action, e: Beacon) {
+        console.log(a, e);
     }
 }

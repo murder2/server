@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from "@angular/core";
 import {MurderService} from "./murder.service";
-import {Sensor, Actor, Action} from "./stub";
+import {Sensor, Actor, Action, Beacon} from "./stub";
 import {Response} from "@angular/http";
 
 
@@ -18,7 +18,7 @@ export class MurderComponent {
     public actionModal: boolean;
 
     public newAction: Action;
-    public newEvent: Event;
+    public newEvent: Beacon;
 
     public event: Sensor = null;
     public event_uid: string = null;
