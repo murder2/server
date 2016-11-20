@@ -69,7 +69,7 @@ styles:
   tags: false
 
   # Components w/ JavaScript
-  modal: false
+  modal: true
   tooltip: false
   popover: false
   carousel: false

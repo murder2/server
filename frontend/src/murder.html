@@ -2,6 +2,11 @@
     <div class="navbar-brand">
         Murder
     </div>
+
+    <ul class="nav navbar-nav float-xs-right">
+        <li class="nav-item"><a class="nav-link" (click)="addAction()">Add Action</a></li>
+        <li class="nav-item"><a class="nav-link" (click)="addEvent()">Add Beacon</a></li>
+    </ul>
 </div>
 
 <div class="row" id="content">
@@ -25,10 +30,10 @@
         <div class="row">
             <div class="col-xs-12">
                 <button class="btn btn-primary btn-lg" [disabled]="newEvent == null">
-                    {{ newEvent?.title || "Choose action" }}
+                    {{ newEvent?.title || "Choose Event" }}
                 </button>
                 <button class="btn btn-danger btn-lg float-xs-right" [disabled]="newAction == null">
-                    {{ newAction?.title || "Choose Event" }}
+                    {{ newAction?.title || "Choose Action" }}
                 </button>
             </div>
         </div>
@@ -51,3 +56,28 @@
         </div>
     </div>
 </div>
+
+
+<modal *ngIf="eventModal" (onClose)="handleEventClose()" (click)="eventModal = false">
+    <div header>Add new Event</div>
+    <form body class="row form-group" (ngSubmit)="submitEvent()">
+        <div class="col-xs-12">
+            <select class="form-control" [(ngModel)]="event" name="event">
+                <option *ngFor="let sensor of service.sensors$ | async" [value]="sensor">{{ sensor.friendlyName || sensor.id }}</option>
+            </select>
+        </div>
+        <div class="col-xs-12">
+            <input class="form-control" type="text" [(ngModel)]="event_uid" placeholder="UID" name="event_uid">
+        </div>
+        <div class="col-xs-12">
+            <input class="form-control" type="text" [(ngModel)]="event_major" placeholder="Major" name="event_major">
+        </div>
+        <div class="col-xs-12">
+            <input class="form-control" type="text" [(ngModel)]="event_minor" placeholder="Minor" name="event_minor">
+        </div>
+
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary float-xs-right">Save</button>
+        </div>
+    </form>
+</modal>
