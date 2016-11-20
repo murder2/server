@@ -1,8 +1,50 @@
-<div class="row">
+<div class="navbar navbar-dark bg-inverse navbar-fixed-top">
+    <div class="navbar-brand">
+        Murder
+    </div>
+</div>
+
+<div class="row" id="content">
+    <div class="col-xs-3">
+        <div class="row" *ngFor="let o of service.events$ | async">
+            <div class="col-xs-12">
+                <button class="btn btn-primary btn-lg" (click)="setEvent(o)">
+                    {{ o.title }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <div class="row" *ngFor="let o of service.links$ | async">
+            <div class="col-xs-12">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <button class="btn btn-primary btn-lg" [disabled]="newEvent == null">
+                    {{ newEvent?.title || "Choose action" }}
+                </button>
+                <button class="btn btn-danger btn-lg float-xs-right" [disabled]="newAction == null">
+                    {{ newAction?.title || "Choose Event" }}
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-xs-center">
+                <button class="btn btn-success btn-lg" [disabled]="newEvent == null || newAction == null">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="col-xs-3">
         <div class="row" *ngFor="let o of service.actions$ | async">
             <div class="col-xs-12">
-                <button class="btn btn-info">
+                <button class="btn btn-danger btn-lg float-xs-right" (click)="setAction(o)">
                     {{ o.title }}
                 </button>
             </div>
