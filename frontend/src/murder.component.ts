@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from "@angular/core";
 import {MurderService} from "./murder.service";
-import {Sensor, Actor} from "./stub";
+import {Sensor, Actor, Action} from "./stub";
 import {Response} from "@angular/http";
 
 
@@ -17,8 +17,8 @@ export class MurderComponent {
     public eventModal: boolean;
     public actionModal: boolean;
 
-    public newAction: any;
-    public newEvent: any;
+    public newAction: Action;
+    public newEvent: Event;
 
     public event: Sensor = null;
     public event_uid: string = null;
@@ -64,5 +64,9 @@ export class MurderComponent {
             this.sound_file = null;
             this.actionModal = false;
         })
+    }
+
+    saveLink() {
+        this.service.addLink(this.newAction, this.newEvent);
     }
 }

@@ -52,10 +52,14 @@ export class MurderService {
         });
     }
 
-    public addAction(actor: Actor, action_name, action_type: string, sound_file: string) {
+    public addAction(actor: Actor, action_name: string, action_type: string, sound_file: string) {
         return this.http.put(`/actors/${actor.id}/actions`, { name: action_name, type: action_type, sound_file: sound_file}).map((e: Response) => {
             this.fetchActions();
             return e;
         })
+    }
+
+    public addLink(a: Action, e: Event) {
+        
     }
 }
