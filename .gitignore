@@ -6,3 +6,16 @@ frontend/output
 frontend/node_modules
 frontend/compiled
 static/
+
+#### vim ####
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+

@@ -19,7 +19,7 @@ class Data:
     links = defaultdict(lambda: defaultdict(dict))
 
     def addActor(self, ip, port, capabilities):
-        self.actors[str(self.actor_id)] = dict(capabilities=capabilities, ip=str(ip), port=port, id=self.actor_id, actions=[])
+        self.actors[str(self.actor_id)] = dict(capabilities=capabilities, ip=str(ip), port=port, id=str(self.actor_id), actions=[])
         self.actor_id += 1
 
         return self.actor_id - 1
@@ -28,4 +28,4 @@ class Data:
         if id in self.sensors.keys():
             raise IntegrityError(id)
 
-        self.sensors[id] = dict(id=id, beacons=[])
+        self.sensors[str(id)] = dict(id=str(id), beacons=[])
